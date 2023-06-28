@@ -24,16 +24,11 @@ import {
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  
-  const userObj = {
-    isLoggedIn,
-    setIsLoggedIn,
-  }
 
   const router = createBrowserRouter(createRoutesFromElements(
-    <Route path="/" element={<Layout userObj={userObj}/>} errorElement={<Error/>}>
+    <Route path="/" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>} errorElement={<Error/>}>
       <Route index element={<Home/>}/>
-      <Route path="login" element={<Login userObj={userObj}/>} />
+      <Route path="login" element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>} />
       <Route path="search" element={<Search/>}/>
       <Route path="faq" element={<Faq/>}/>
       <Route path="tasks" element={<Tasks/>}/>

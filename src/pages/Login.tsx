@@ -27,14 +27,24 @@ import { Button } from "@chakra-ui/react"
 //   }
 // }
 
-export default function Login(props) {
+
+interface UserProps {
+  isLoggedIn: boolean
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+
+export default function Login({ isLoggedIn, setIsLoggedIn }: UserProps) {
   // const errorMessage = useActionData()
   // const message = useLoaderData()
   // const navigation = useNavigation()
-  const { setIsLoggedIn } = props.userObj
 
   function login() {
     setIsLoggedIn(true)
+  }
+
+  if (isLoggedIn) {
+    // redirect
   }
 
   return (

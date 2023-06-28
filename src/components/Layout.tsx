@@ -2,12 +2,17 @@
 import { Outlet } from "react-router-dom"
 import Header from "./Header"
 
-export default function Layout(props) {
+interface UserProps {
+  isLoggedIn: boolean
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function Layout( { isLoggedIn, setIsLoggedIn }: UserProps ) {
   // const [count, setCount] = useState(0)
 
   return (
     <>
-      <Header userObj={props.userObj}/>
+      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
       <Outlet/>
     </>
   )

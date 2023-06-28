@@ -22,9 +22,12 @@ import {
   PopoverFooter,
 } from '@chakra-ui/react'
 
-export default function Header(props) {
-  const { isLoggedIn, setIsLoggedIn } = props.userObj
-  
+interface UserProps {
+  isLoggedIn: boolean
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function Header({ isLoggedIn, setIsLoggedIn }: UserProps) {
   function logout() {
     setIsLoggedIn(false)
   }
