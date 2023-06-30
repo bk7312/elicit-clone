@@ -1,12 +1,13 @@
 import elicitLogo from '../assets/elicit-logo.svg'
-import faqIcon from '../assets/faq-icon.svg'
-import tasksIcon from '../assets/tasks-icon.svg'
-import starredIcon from '../assets/starred-icon.svg'
-import profileIcon from '../assets/profile-icon.svg'
-import downloadIcon from '../assets/download-icon.svg'
-import termsIcon from '../assets/terms-icon.svg'
-import privacyIcon from '../assets/privacy-icon.svg'
-import logoutIcon from '../assets/logout-icon.svg'
+
+import { 
+  FaRegQuestionCircle,
+  FaRegStar,
+  FaListUl,
+} from 'react-icons/fa'
+import { FiLogOut } from 'react-icons/fi'
+import { TbLayoutGrid } from 'react-icons/tb'
+import { PiShieldBold, PiDownloadBold, PiUserCircleBold } from 'react-icons/pi'
 
 // elicit logo color #94a3b8
 import { Link, NavLink } from 'react-router-dom'
@@ -41,7 +42,7 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: UserProps) {
         <ButtonGroup variant='ghost'>
           <NavLink to='/faq'>
             <Button 
-              leftIcon={<img src={faqIcon}/>} 
+              leftIcon={<FaRegQuestionCircle/>} 
               color='#94a3b8'
             >FAQ</Button>
           </NavLink>
@@ -49,37 +50,37 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: UserProps) {
           <>
             <NavLink to='/tasks'>
               <Button 
-                leftIcon={<img src={tasksIcon}/>} 
+                leftIcon={<TbLayoutGrid/>} 
                 color='gray.500'
               >Tasks</Button>
             </NavLink>
             <NavLink to='/starred'>
               <Button 
-                leftIcon={<img src={starredIcon}/>} 
+                leftIcon={<FaRegStar/>} 
                 color='gray.500'
               >Starred</Button>
             </NavLink>
             <Popover>
               <PopoverTrigger>
-                <IconButton aria-label='profile' icon={<img src={profileIcon}/>}/>
+                <IconButton aria-label='profile' icon={<PiUserCircleBold/>}/>
               </PopoverTrigger>
               <PopoverContent>
                 <PopoverHeader padding='1'>
-                  <Button variant='ghost' leftIcon={<img src={profileIcon}/>}>UserName</Button>
+                  <Button variant='ghost' leftIcon={<PiUserCircleBold/>}>UserName</Button>
                 </PopoverHeader>
                 <PopoverBody padding='1'>
-                  <Button variant='ghost' leftIcon={<img src={downloadIcon}/>}>Download Desktop app</Button>
+                  <Button variant='ghost' leftIcon={<PiDownloadBold/>}>Download Desktop app</Button>
                   <NavLink to='/terms'>
-                    <Button variant='ghost' leftIcon={<img src={termsIcon}/>}>Terms of service</Button>
+                    <Button variant='ghost' leftIcon={<FaListUl/>}>Terms of service</Button>
                   </NavLink>
                   <NavLink to='/privacy'>
-                    <Button variant='ghost' leftIcon={<img src={privacyIcon}/>}>Privacy policy</Button>
+                    <Button variant='ghost' leftIcon={<PiShieldBold/>}>Privacy policy</Button>
                   </NavLink>
                 </PopoverBody>
                 <PopoverFooter padding='1'>
                 <Button 
                   variant='ghost' 
-                  leftIcon={<img src={logoutIcon}/> }
+                  leftIcon={<FiLogOut/> }
                   onClick={logout}
                 >Logout</Button>
                 </PopoverFooter>
