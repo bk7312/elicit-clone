@@ -2,6 +2,7 @@
 import { FiUploadCloud, FiSearch } from 'react-icons/fi'
 import { PiSparkleFill } from 'react-icons/pi'
 import { useState, ChangeEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { 
   Box,
@@ -22,10 +23,47 @@ export default function SearchBar() {
   const [input, setInput] = useState('')
   const [inputFocus, setInputFocus] = useState(false)
 
+  const suggestedSearchText = [
+    'What is the impact of stress and anxiety on nightmares?',
+    'What is the effectiveness on sleeping faster to save time?',
+    'How does human mortality affect morality?',
+  ]
+  const recentSearchText = [
+    'What is the impact of stress and anxiety on daydreams?',
+    'What is the effectiveness on sleep fasting to detox time?',
+    'How does human morality affect mortality?',
+  ]
+
+  const textToButton = (text: string) => (
+    <Button 
+      key={text}
+      variant='ghost'
+      color='gray.500' 
+      width="100%" 
+      justifyContent="flex-start" 
+      leftIcon={<FiSearch/>}
+      onClick={() => navigate(`/search?q=${text}`)}
+    >{text}</Button>
+  )
+  
+  const suggestedSearch = suggestedSearchText.map(text => textToButton(text))
+  const recentSearch = recentSearchText.map(text => textToButton(text))
+
+  const navigate = useNavigate()
+
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     const value = e.target.value
     setInput(value)
   }
+
+  // search param => /search?q=insert+search+term+here&token=TOKEN_ID
+  // clicking the dropdown menu and/or buttons should NOT close the dropdown
+  // due to inputFocus... to refactor, how to keep popover when typing in input?
+
+  // brainstorm question button onClick replaces button with loader
+  // then replaces entire dropdown with "suggested research questions" followed by 5 suggestions
+  // editing search term replaces suggested results with brainstorm button
+  // returning search term to original search term replaces button with original suggested results
 
   return (
     <Flex 
@@ -83,51 +121,12 @@ export default function SearchBar() {
                   marginY='2'
                   _hover={{ bg: 'messenger.100' }}
                   leftIcon={<PiSparkleFill/>}
+                  onClick={() => console.log(`brainstorming ${input}...`)}
               >Brainstorm questions for '{input}'</Button>}
               <Text>Try searching for</Text>
-              <Button 
-                variant='ghost'
-                color='gray.500' 
-                width="100%" 
-                justifyContent="flex-start" 
-                leftIcon={<FiSearch/>}
-              >How does stress and anxiety impact dreams?</Button>
-              <Button 
-                variant='ghost'
-                color='gray.500' 
-                width="100%" 
-                justifyContent="flex-start" 
-                leftIcon={<FiSearch/>}
-              >What is the effectiveness on sleeping faster to save time?</Button>
-              <Button 
-                variant='ghost'
-                color='gray.500' 
-                width="100%" 
-                justifyContent="flex-start" 
-                leftIcon={<FiSearch/>}
-              >What are the effects of time on mortality?</Button>
+              {suggestedSearch}
               <Text>Recent searches</Text>
-              <Button 
-                variant='ghost'
-                color='gray.500' 
-                width="100%" 
-                justifyContent="flex-start" 
-                leftIcon={<FiSearch/>}
-              >How does stress and anxiety impact daydreams?</Button>
-              <Button 
-                variant='ghost'
-                color='gray.500' 
-                width="100%" 
-                justifyContent="flex-start" 
-                leftIcon={<FiSearch/>}
-              >What is the effectiveness on sleep fasting to detox time?</Button>
-              <Button 
-                variant='ghost'
-                color='gray.500' 
-                width="100%" 
-                justifyContent="flex-start" 
-                leftIcon={<FiSearch/>}
-              >What are the effects of mortality on time?</Button>
+              {recentSearch}
             </PopoverBody>
           </Box>
         </Popover>
@@ -142,6 +141,7 @@ export default function SearchBar() {
             color='white' 
             size='sm' 
             _hover={{ bg: 'messenger.700' }}
+            onClick={() => navigate(`/search?q=${input}`)}
           >Submit</Button>
         </InputRightElement>}
       </InputGroup>
