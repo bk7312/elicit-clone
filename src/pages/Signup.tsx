@@ -55,7 +55,7 @@ export default function Signup({ isLoggedIn, setIsLoggedIn }: UserProps) {
     >
       <Flex justifyContent='space-between' alignItems='center'>
         <Text fontSize='xl' fontWeight='bold'>Sign up</Text>
-        <Link to='/login'><Text>Already have an account? Log in</Text></Link>
+        <Text>Already have an account? <Link to='/login'>Log in</Link></Text>
       </Flex>
       <Button 
         colorScheme='messenger' 
@@ -71,8 +71,11 @@ export default function Signup({ isLoggedIn, setIsLoggedIn }: UserProps) {
         marginTop='1em'
         size='lg'
       >Sign up with Google</Button>
-      <Text textAlign='center' marginTop='1.5em'>By continuing, you are indicating that you accept our Terms of Service and Privacy Policy.</Text>
-      <Text textAlign='center' marginTop='1.5em'>Need help? Email us at help@elicit.org</Text>
+      <Text textAlign='center' marginTop='1.5em'>
+        By continuing, you are indicating that you accept our 
+        <Link to='/terms'>Terms of Service</Link> and 
+        <Link to='/privacy'>Privacy Policy</Link>.
+      </Text>      <Text textAlign='center' marginTop='1.5em'>Need help? Email us at help@elicit.org</Text>
     </Flex>
   )
 }
