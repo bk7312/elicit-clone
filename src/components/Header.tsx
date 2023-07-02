@@ -5,16 +5,18 @@ import {
   FaRegStar,
   FaListUl,
 } from 'react-icons/fa'
+
 import { 
   PiShieldBold,
   PiDownloadBold, 
   PiUserCircleBold 
 } from 'react-icons/pi'
+
 import { FiLogOut } from 'react-icons/fi'
 import { TbLayoutGrid } from 'react-icons/tb'
 
-// elicit logo color #94a3b8
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+
 import {
   Button,
   ButtonGroup,
@@ -26,7 +28,10 @@ import {
   PopoverBody,
   PopoverFooter,
   Flex,
+  Tooltip,
 } from '@chakra-ui/react'
+
+import { forwardRef } from 'react'
 
 interface UserProps {
   isLoggedIn: boolean
@@ -34,17 +39,33 @@ interface UserProps {
 }
 
 export default function Header({ isLoggedIn, setIsLoggedIn }: UserProps) {
+
+  const navigate = useNavigate()
+
+  const ProfilePopover = forwardRef<HTMLButtonElement>((props, ref) => (
+    <PopoverTrigger>
+      <IconButton 
+        aria-label='profile' 
+        color='gray.500' 
+        icon={<PiUserCircleBold/>}
+        {...props}
+        ref={ref}
+      />
+    </PopoverTrigger>))
+
   function logout() {
     setIsLoggedIn(false)
+    navigate('/')
   }
 
   return (
-    <Flex as='header' alignItems='center' justifyContent='space-between' padding='2'>
+    <Flex as='header' alignItems='center' justifyContent='space-between' paddingY='2' paddingX='4'>
       <Button variant='link'>
         <Link to='/'>
           <img src={elicitLogo} alt=''/>
         </Link>
       </Button>
+
       <Flex as='nav' alignItems='center' justifyContent='space-between'>
         <ButtonGroup variant='ghost'>
           <NavLink to='/faq'>
@@ -53,6 +74,7 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: UserProps) {
               color='gray.500'
             >FAQ</Button>
           </NavLink>
+
           {isLoggedIn ? 
           <>
             <NavLink to='/tasks'>
@@ -61,17 +83,21 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: UserProps) {
                 color='gray.500'
               >Tasks</Button>
             </NavLink>
+
             <NavLink to='/starred'>
               <Button 
                 leftIcon={<FaRegStar/>} 
                 color='gray.500'
               >Starred</Button>
             </NavLink>
+
             <Popover>
-              <PopoverTrigger>
-                <IconButton aria-label='profile' color='gray.500' icon={<PiUserCircleBold/>}/>
-              </PopoverTrigger>
+              <Tooltip label='Account settings'>
+                <ProfilePopover/>
+              </Tooltip>
+                
               <PopoverContent width='min-content'>
+              
                 <PopoverHeader padding='1'>
                   <Button 
                     color='gray.500' 
@@ -80,6 +106,7 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: UserProps) {
                     leftIcon={<PiUserCircleBold/>}
                   >UserName</Button>
                 </PopoverHeader>
+
                 <PopoverBody padding='1'>
                   <Button 
                     color='gray.500' 
@@ -104,14 +131,15 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: UserProps) {
                     <NavLink to='/privacy'>Privacy policy</NavLink>
                   </Button>
                 </PopoverBody>
+
                 <PopoverFooter padding='1'>
-                <Button 
-                  color='gray.500'
-                  leftIcon={<FiLogOut/> }
-                  width="100%" 
-                  justifyContent="flex-start"
-                  onClick={logout}
-                >Logout</Button>
+                  <Button 
+                    color='gray.500'
+                    leftIcon={<FiLogOut/> }
+                    width="100%" 
+                    justifyContent="flex-start"
+                    onClick={logout}
+                  >Logout</Button>
                 </PopoverFooter>
               </PopoverContent>
             </Popover>
