@@ -20,23 +20,33 @@ import {
   createRoutesFromElements,
   RouterProvider, 
   Route, 
+  redirect,
 } from 'react-router-dom'
 
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  function defaultLoader(checkLogin: boolean) {
+    if (!checkLogin) throw redirect('/login')
+    return null
+  }
 
   const router = createBrowserRouter(createRoutesFromElements(
-    <Route path="/" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>} errorElement={<Error/>}>
+    <Route 
+      path="/" 
+      element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>} 
+      errorElement={<Error/>}
+    >
       <Route index element={<Home isLoggedIn={isLoggedIn}/>}/>
       <Route path="login" element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>} />
       <Route path="signup" element={<Signup isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
-      <Route path="search" element={<Search/>}/>
+      <Route path="search" element={<Search/>} loader={() => defaultLoader(isLoggedIn)}/>
       <Route path="faq" element={<Faq/>}/>
-      <Route path="tasks" element={<Tasks/>}/>
-      <Route path="starred" element={<Starred/>}/>
+      <Route path="tasks" element={<Tasks/>} loader={() => defaultLoader(isLoggedIn)}/>
+      <Route path="starred" element={<Starred/>} loader={() => defaultLoader(isLoggedIn)}/>
       <Route path="terms" element={<Terms/>}/>
-      <Route path="Privacy" element={<Privacy/>}/>
+      <Route path="privacy" element={<Privacy/>}/>
       <Route path="*" element={<NotFound />}/>
     </Route>
   ))
