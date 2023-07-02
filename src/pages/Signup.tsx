@@ -30,7 +30,7 @@ interface UserProps {
 }
 
 
-export default function Login({ isLoggedIn, setIsLoggedIn }: UserProps) {
+export default function Signup({ isLoggedIn, setIsLoggedIn }: UserProps) {
 
   const navigate = useNavigate()
 
@@ -38,7 +38,7 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: UserProps) {
     setIsLoggedIn(true)
     navigate('/')
   }
-  
+
   useEffect(() => {
     if (isLoggedIn) {
       navigate('/')
@@ -54,8 +54,8 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: UserProps) {
       height='85dvh' 
     >
       <Flex justifyContent='space-between' alignItems='center'>
-        <Text fontSize='xl' fontWeight='bold'>Log in</Text>
-        <Link to='/signup'><Text>Sign up for an account</Text></Link>
+        <Text fontSize='xl' fontWeight='bold'>Sign up</Text>
+        <Link to='/login'><Text>Already have an account? Log in</Text></Link>
       </Flex>
       <Button 
         colorScheme='messenger' 
@@ -63,14 +63,14 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: UserProps) {
         leftIcon={<MdMail/>} 
         marginTop='1em'
         size='lg'
-      >Log in with email</Button>
+      >Sign up with email</Button>
       <Button 
         variant='outline' 
         onClick={login} 
         leftIcon={<FcGoogle/>} 
         marginTop='1em'
         size='lg'
-      >Log in with Google</Button>
+      >Sign up with Google</Button>
       <Text textAlign='center' marginTop='1.5em'>By continuing, you are indicating that you accept our Terms of Service and Privacy Policy.</Text>
       <Text textAlign='center' marginTop='1.5em'>Need help? Email us at help@elicit.org</Text>
     </Flex>

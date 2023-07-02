@@ -8,7 +8,6 @@ interface UserProps {
 }
 
 export default function Layout( { isLoggedIn, setIsLoggedIn }: UserProps ) {
-  // const [count, setCount] = useState(0)
 
   return (
     <>

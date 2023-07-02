@@ -1,6 +1,7 @@
 
 import Home from './pages/Home'
 import Login from './pages/Login'
+import Signup from './pages/Signup'
 import Search from './pages/Search'
 import Faq from './pages/Faq'
 import Tasks from './pages/Tasks'
@@ -23,12 +24,13 @@ import {
 
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(true)
 
   const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>} errorElement={<Error/>}>
-      <Route index element={<Home/>}/>
+      <Route index element={<Home isLoggedIn={isLoggedIn}/>}/>
       <Route path="login" element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>} />
+      <Route path="signup" element={<Signup isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
       <Route path="search" element={<Search/>}/>
       <Route path="faq" element={<Faq/>}/>
       <Route path="tasks" element={<Tasks/>}/>

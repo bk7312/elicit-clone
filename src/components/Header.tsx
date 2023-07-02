@@ -5,9 +5,13 @@ import {
   FaRegStar,
   FaListUl,
 } from 'react-icons/fa'
+import { 
+  PiShieldBold,
+  PiDownloadBold, 
+  PiUserCircleBold 
+} from 'react-icons/pi'
 import { FiLogOut } from 'react-icons/fi'
 import { TbLayoutGrid } from 'react-icons/tb'
-import { PiShieldBold, PiDownloadBold, PiUserCircleBold } from 'react-icons/pi'
 
 // elicit logo color #94a3b8
 import { Link, NavLink } from 'react-router-dom'
@@ -21,6 +25,7 @@ import {
   PopoverHeader,
   PopoverBody,
   PopoverFooter,
+  Flex,
 } from '@chakra-ui/react'
 
 interface UserProps {
@@ -34,16 +39,18 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: UserProps) {
   }
 
   return (
-    <header className='flex items-center justify-between px-4 py-2'>
-      <Link to='/'>
-        <img src={elicitLogo} alt=''/>
-      </Link>
-      <nav className='flex items-center justify-between'>
+    <Flex as='header' alignItems='center' justifyContent='space-between' padding='2'>
+      <Button variant='link'>
+        <Link to='/'>
+          <img src={elicitLogo} alt=''/>
+        </Link>
+      </Button>
+      <Flex as='nav' alignItems='center' justifyContent='space-between'>
         <ButtonGroup variant='ghost'>
           <NavLink to='/faq'>
             <Button 
               leftIcon={<FaRegQuestionCircle/>} 
-              color='#94a3b8'
+              color='gray.500'
             >FAQ</Button>
           </NavLink>
           {isLoggedIn ? 
@@ -62,41 +69,61 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: UserProps) {
             </NavLink>
             <Popover>
               <PopoverTrigger>
-                <IconButton aria-label='profile' icon={<PiUserCircleBold/>}/>
+                <IconButton aria-label='profile' color='gray.500' icon={<PiUserCircleBold/>}/>
               </PopoverTrigger>
-              <PopoverContent>
+              <PopoverContent width='min-content'>
                 <PopoverHeader padding='1'>
-                  <Button variant='ghost' leftIcon={<PiUserCircleBold/>}>UserName</Button>
+                  <Button 
+                    color='gray.500' 
+                    width="100%" 
+                    justifyContent="flex-start" 
+                    leftIcon={<PiUserCircleBold/>}
+                  >UserName</Button>
                 </PopoverHeader>
                 <PopoverBody padding='1'>
-                  <Button variant='ghost' leftIcon={<PiDownloadBold/>}>Download Desktop app</Button>
-                  <NavLink to='/terms'>
-                    <Button variant='ghost' leftIcon={<FaListUl/>}>Terms of service</Button>
-                  </NavLink>
-                  <NavLink to='/privacy'>
-                    <Button variant='ghost' leftIcon={<PiShieldBold/>}>Privacy policy</Button>
-                  </NavLink>
+                  <Button 
+                    color='gray.500' 
+                    width="100%" 
+                    justifyContent="flex-start" 
+                    leftIcon={<PiDownloadBold/>}
+                  >Download Desktop app</Button>
+                  <Button 
+                    color='gray.500' 
+                    width="100%" 
+                    justifyContent="flex-start" 
+                    leftIcon={<FaListUl/>}
+                  >
+                    <NavLink to='/terms'>Terms of service</NavLink>
+                  </Button>
+                  <Button 
+                    color='gray.500' 
+                    width="100%" 
+                    justifyContent="flex-start" 
+                    leftIcon={<PiShieldBold/>}
+                  >
+                    <NavLink to='/privacy'>Privacy policy</NavLink>
+                  </Button>
                 </PopoverBody>
                 <PopoverFooter padding='1'>
                 <Button 
-                  variant='ghost' 
+                  color='gray.500'
                   leftIcon={<FiLogOut/> }
+                  width="100%" 
+                  justifyContent="flex-start"
                   onClick={logout}
                 >Logout</Button>
                 </PopoverFooter>
               </PopoverContent>
             </Popover>
 
-
-            
           </> : 
           <NavLink to='login'>
             <Button color='gray.500'>Log in</Button>
           </NavLink>}
           
         </ButtonGroup>
-      </nav>
-    </header>
+      </Flex>
+    </Flex>
   )
 }
 

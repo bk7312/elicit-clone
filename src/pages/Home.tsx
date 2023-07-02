@@ -1,10 +1,22 @@
 
+import Landing from "./Landing"
+import SearchBar from "../components/SearchBar"
 
-export default function Home() {
+
+interface UserProps {
+  isLoggedIn: boolean
+}
+
+
+export default function Home({ isLoggedIn }: UserProps) {
 
   return (
     <>
-      Home
+      {isLoggedIn ? <SearchBar/> : <Landing/>}
     </>
   )
 }
+
+
+
+
