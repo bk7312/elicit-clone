@@ -72,9 +72,7 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: UserProps) {
         size='lg'
       >Log in with Google</Button>
       <Text textAlign='center' marginTop='1.5em'>
-        By continuing, you are indicating that you accept our 
-        <Link to='/terms'>Terms of Service</Link> and 
-        <Link to='/privacy'>Privacy Policy</Link>.
+        By continuing, you are indicating that you accept our <Link to='/terms'>Terms of Service</Link> and <Link to='/privacy'>Privacy Policy</Link>.
       </Text>
       <Text textAlign='center' marginTop='1.5em'>Need help? Email us at help@elicit.org</Text>
     </Flex>

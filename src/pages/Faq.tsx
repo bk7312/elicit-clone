@@ -3,7 +3,6 @@ import {
   Box,
   Heading,
   Text,
-  List,
   ListItem,
   UnorderedList,
 } from '@chakra-ui/react'
