@@ -8,6 +8,8 @@ import {
   // Button,
 } from '@chakra-ui/react'
 
+import { useLocation } from 'react-router-dom'
+
 export default function Search() {
 
   // searchbar in header (!!)
@@ -26,10 +28,13 @@ export default function Search() {
 
   // further improvement on result, sticky the filter/sortby header?
 
+  const location = useLocation()
+  const searchInput = decodeURI(location.search).slice(3)
+
   return (
     <Flex backgroundColor='gray.50'>
-      <Sidebar searchInput='Placeholder search term'/>
-      <Results/>
+      <Sidebar searchInput={searchInput}/>
+      <Results searchInput={searchInput}/>
     </Flex>
   )
 }

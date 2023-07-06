@@ -13,9 +13,12 @@ import {
 } from '@chakra-ui/react'
 
 import { GoBook, GoPeople, GoLink } from 'react-icons/go'
+import { MouseEvent } from 'react'
+
 
 interface CardProps {
   title: string,
+  titleFontSize: string,
   author: string[],
   journal: string,
   year: number,
@@ -23,19 +26,20 @@ interface CardProps {
   doi: string,
 }
 
-export default function ResultCard( { title, author, journal, year, citations, doi }: CardProps ) {
+export default function ResultCard( { title, author, journal, year, citations, doi, titleFontSize}: CardProps ) {
 
   // todo - improve doi copied alert popup, use chakra ui alert
   // handle other data or no data, i.e. pdf, no doi, etc 
 
-  async function copyDoi(doi: string) {
+  async function copyDoi(e: MouseEvent<HTMLButtonElement> , doi: string) {
+    e.stopPropagation()
     await navigator.clipboard.writeText(doi)
     alert('DOI copied!')
   }
 
   return (
     <Box >
-      <Heading fontSize='md' whiteSpace='pre-wrap'>{title}</Heading>
+      <Heading fontSize={titleFontSize} whiteSpace='pre-wrap'>{title}</Heading>
       <Flex gap='1em' alignItems='center' color='gray.500' fontSize='sm' marginTop='1em'>
         <GoPeople/>
         <Text whiteSpace='pre-wrap'>{author.join(', ')}</Text>
@@ -53,7 +57,7 @@ export default function ResultCard( { title, author, journal, year, citations, d
             fontSize='xs' 
             color='gray.600' 
             rightIcon={<GoLink/>}
-            onClick={() => copyDoi(doi)}
+            onClick={(e) => copyDoi(e, doi)}
           >DOI</Button>
         </Tooltip>
       </Flex>
