@@ -43,7 +43,7 @@ export default function SearchBar() {
     results: [],
   })
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen: isPopoverOpen, onOpen: onPopoverOpen, onClose: onPopoverClose } = useDisclosure()
   const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure()
   const navigate = useNavigate()
 
@@ -123,8 +123,8 @@ export default function SearchBar() {
         value={input}
         onChange={handleChange}
         onKeyDown={handleEnter}
-        onFocus={onOpen}
-        onBlur={onClose}
+        onFocus={onPopoverOpen}
+        onBlur={onPopoverClose}
       />
       {input !== '' && <InputRightElement
         width='fit-content'
@@ -173,8 +173,8 @@ export default function SearchBar() {
       <Text marginTop='0.5em' fontWeight='light'>Elicit will find answers from 175 million papers</Text>
 
       <Popover
-        isOpen={isOpen}
-        onClose={onClose}
+        isOpen={isPopoverOpen}
+        onClose={onPopoverClose}
         autoFocus={false}
         closeOnBlur={true} // no effect?
         closeOnEsc={true} // no effect?
