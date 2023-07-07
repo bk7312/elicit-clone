@@ -53,5 +53,49 @@ const generateResultsData = (searchInput: string) => ([{
   abstract: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim labore voluptatem quia eligendi minima rem illum nesciunt doloremque iure cupiditate atque autem eos iste doloribus veniam sapiente magni, placeat nihil obcaecati. Architecto, ullam. Ea asperiores consequuntur dolorum doloribus? Reprehenderit dolore non vel unde optio repudiandae numquam perferendis amet modi harum deserunt obcaecati sint debitis vero, accusantium suscipit. Iure nulla quibusdam ullam explicabo voluptates, excepturi fugiat natus, rem inventore eum voluptate error repellendus veritatis, adipisci eos! Totam impedit voluptatibus reiciendis nostrum?',
 }])
 
+const generatePaperSummary = () => ([
+  {
+    heading: 'Abstract summary',
+    text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.'
+  },
+  {
+    heading: 'What did they test?',
+    text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.'
+  },
+  {
+    heading: 'What outcomes did they measure?',
+    text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.'
+  },
+  {
+    heading: 'Population characteristics',
+    text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.'
+  },
+])
 
-export { suggestedSearchText, recentSearchText, sectionHeadings, generateBrainstormData, generateResultsData}
+const generatePaperText = () => ([
+  {
+    heading: 'Abstract',
+    paragraphs: [
+      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio ullam nam asperiores commodi, quisquam earum ducimus eveniet tempore nemo architecto natus suscipit corrupti molestiae molestias dignissimos qui saepe, accusamus ad. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.',
+    ]
+  },
+  {
+    heading: 'Methodology',
+    paragraphs: [
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque deserunt corporis ipsam laborum saepe ipsa! Maiores voluptas delectus eaque incidunt assumenda dolor cum veritatis, tenetur iste recusandae numquam consequatur deserunt nostrum harum, odit, ipsam non nihil tempora? Animi unde quasi suscipit in, rem corrupti officiis labore reprehenderit voluptates, explicabo voluptatem. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.',
+      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.',
+      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.'
+    ]
+  },
+  {
+    heading: 'Discussion',
+    paragraphs: [
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque deserunt corporis ipsam laborum saepe ipsa! Maiores voluptas delectus eaque incidunt assumenda dolor cum veritatis, tenetur iste recusandae numquam consequatur deserunt nostrum harum, odit, ipsam non nihil tempora? Animi unde quasi suscipit in, rem corrupti officiis labore reprehenderit voluptates, explicabo voluptatem. ',
+      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque deserunt corporis ipsam laborum saepe ipsa! Maiores voluptas delectus eaque incidunt assumenda dolor cum veritatis, tenetur iste recusandae numquam consequatur deserunt nostrum harum, odit, ipsam non nihil tempora? Animi unde quasi suscipit in, rem corrupti officiis labore reprehenderit voluptates, explicabo voluptatem. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.',
+      'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.',
+    ]
+  },
+
+])
+
+export { suggestedSearchText, recentSearchText, sectionHeadings, generateBrainstormData, generateResultsData, generatePaperSummary, generatePaperText}

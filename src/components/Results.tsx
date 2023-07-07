@@ -2,8 +2,8 @@
 import { 
   Box,
   Flex,
-  Heading,
-  Text, 
+  // Heading,
+  // Text, 
   // Switch,
   Button,
   Input,
@@ -39,7 +39,9 @@ import { FiSearch } from 'react-icons/fi'
 import { useState, MouseEvent } from 'react'
 import ResultInfo from './ResultInfo'
 import ResultsHeader from './ResultsHeader'
-import { sectionHeadings, generateResultsData } from '../data/data'
+import ResultsModalPaperSummary from './ResultsModalPaperSummary'
+import ResultsModalPaperText from './ResultsModalPaperText'
+import { sectionHeadings, generateResultsData, generatePaperSummary, generatePaperText } from '../data/data'
 
 interface ResultsProps {
   searchInput: string
@@ -153,14 +155,7 @@ export default function Results({ searchInput }: ResultsProps) {
                   <ResultInfo {...modalData} titleFontSize='4xl'/>
                   <br/>
                   <Box paddingY='1em' borderTop='1px solid' borderTopColor='gray.200'>
-                    <Text fontWeight='bold'>Abstract summary</Text>
-                    <Text marginTop='1em'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.</Text>
-                    <Text fontWeight='bold' marginTop='1em'>What did they test?</Text>
-                    <Text marginTop='1em'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.</Text>
-                    <Text fontWeight='bold' marginTop='1em'>What outcomes did they measure?</Text>
-                    <Text marginTop='1em'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.</Text>
-                    <Text fontWeight='bold' marginTop='1em'>Population characteristics</Text>
-                    <Text marginTop='1em'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.</Text>
+                    {generatePaperSummary().map((data, index) => <ResultsModalPaperSummary key={index} {...data} />)}
                   </Box>
                 </Box>
                 <Box 
@@ -207,14 +202,7 @@ export default function Results({ searchInput }: ResultsProps) {
                 </Box>
               </Box>
               <Box width='50%' padding='2em' overflowY='auto' maxHeight='90vh' backgroundColor='gray.50' color='gray.600'>
-                <Heading fontSize='2xl'>Abstract</Heading>
-                <Text marginTop='1em'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio ullam nam asperiores commodi, quisquam earum ducimus eveniet tempore nemo architecto natus suscipit corrupti molestiae molestias dignissimos qui saepe, accusamus ad. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.</Text>
-                <Heading fontSize='2xl' marginTop='1em'>Section</Heading>
-                <Text marginTop='1em'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque deserunt corporis ipsam laborum saepe ipsa! Maiores voluptas delectus eaque incidunt assumenda dolor cum veritatis, tenetur iste recusandae numquam consequatur deserunt nostrum harum, odit, ipsam non nihil tempora? Animi unde quasi suscipit in, rem corrupti officiis labore reprehenderit voluptates, explicabo voluptatem. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.</Text>
-                <Text marginTop='1em'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.</Text>
-                <Heading fontSize='2xl' marginTop='1em'>Section</Heading>
-                <Text marginTop='1em'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, hic recusandae. Sed eius reiciendis dolorum quaerat, ullam quae repellat, ab, aliquid enim numquam eos! Totam accusantium dicta quibusdam ducimus minus. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.</Text>
-                <Text marginTop='1em'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid nulla unde sit dolorem alias excepturi labore, assumenda suscipit minus fugit.</Text>
+                {generatePaperText().map((data, index) => <ResultsModalPaperText key={index} {...data}/>)}
               </Box>
             </Flex>
           </ModalBody>
