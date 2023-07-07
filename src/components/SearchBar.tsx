@@ -1,13 +1,18 @@
 
-import { FiUploadCloud, FiSearch } from 'react-icons/fi'
+import { FiSearch } from 'react-icons/fi'
 import { PiSparkleFill } from 'react-icons/pi'
-import { useState, ChangeEvent, KeyboardEvent } from 'react'
+import { 
+  useState, 
+  ChangeEvent, 
+  KeyboardEvent, 
+  // useRef 
+} from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 
 import {
-  Box,
-  Flex,
-  Heading,
+  // Box,
+  // Flex,
+  // Heading,
   Text,
   Button,
   Input,
@@ -20,13 +25,7 @@ import {
   PopoverContent,
   PopoverBody,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
+
 } from '@chakra-ui/react'
 
 interface IBrainstorm {
@@ -34,9 +33,39 @@ interface IBrainstorm {
   results: string[]
 }
 
+const suggestedSearchText = [
+  'What is the impact of stress and anxiety on nightmares?',
+  'What are the benefits of polyphasic sleep?',
+  'How does human mortality affect morality?',
+]
+
+const recentSearchText = [
+  'What is the impact of stress and anxiety on daydreams?',
+  'What are the risks of monophasic sleep?',
+  'How does human morality affect mortality?',
+]
+
+// search param => /search?q=insert+search+term+here&token=TOKEN_ID
+// clicking the dropdown menu and/or buttons should NOT close the dropdown
+
+// PASS - clicking input field opens open popover (Input onFocus={onOpen})
+// PASS - opening popover doesn't steal focus from input (Popover autoFocus={false})
+// PASS - popover stays open while typing (Popover isOpen={isOpen} keeps it open)
+// FAIL - clicking popover (losing input focus) doesn't close popover 
+//        (failed due to Input onBlur={onClose}, unable to close popover if onBlur removed)
+// FAIL - clicking outside input or popover or pressing esc closes popover 
+//        (Popover closeOnBlur and closeOnEsc doesn't work, even with Input onBlur removed)
+// FAIL - clicking the brainstorm question button should not close the popover
+// PASS - after clicking brainstorm button, replace brainstorm button and submit button with loader
+// PASS - then replaces entire dropdown with "suggested research questions" followed by 5 suggestions
+
+// when clicking popover, popover shadow disappears, when focus on input, popover has shadow
+
+
 export default function SearchBar() {
 
   const [input, setInput] = useState('')
+  // const inputRef = useRef<HTMLInputElement>(null)
 
   const [brainstorm, setBrainstorm] = useState<IBrainstorm>({
     isLoading: false,
@@ -44,20 +73,7 @@ export default function SearchBar() {
   })
 
   const { isOpen: isPopoverOpen, onOpen: onPopoverOpen, onClose: onPopoverClose } = useDisclosure()
-  const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure()
   const navigate = useNavigate()
-
-  const suggestedSearchText = [
-    'What is the impact of stress and anxiety on nightmares?',
-    'What are the benefits of polyphasic sleep?',
-    'How does human mortality affect morality?',
-  ]
-
-  const recentSearchText = [
-    'What is the impact of stress and anxiety on daydreams?',
-    'What are the risks of monophasic sleep?',
-    'How does human morality affect mortality?',
-  ]
 
   const textToButton = (text: string) => (
     <Link to={`/search?q=${text}`}>
@@ -77,9 +93,13 @@ export default function SearchBar() {
     setInput(value)
   }
 
-  function handleEnter(e: KeyboardEvent<HTMLInputElement>): void {
+  function handleKeyDown(e: KeyboardEvent<HTMLInputElement>): void {
     if (e.key === 'Enter' && input !== '') {
       navigate(`/search?q=${input}`)
+    }
+    if (e.key === 'Escape') {
+      e.currentTarget.blur()
+      onPopoverClose()
     }
   }
 
@@ -99,89 +119,64 @@ export default function SearchBar() {
     })), 3000)
   }
 
-  // consider moving into separate component
-  // search bar input also needed in /search header
-  const inputSection = (
-    <InputGroup marginTop='2em' maxWidth='85%'>
-      <InputLeftElement
-        pointerEvents='none'
-        fontSize='1.4rem'
-        width='14'
-        color='gray.500'
-        marginTop='1'
-      >
-        <FiSearch />
-      </InputLeftElement>
 
-      <Input
-        boxShadow='md'
-        type='text'
-        placeholder=''
-        size='lg'
-        focusBorderColor='none'
-        paddingLeft='3rem'
-        value={input}
-        onChange={handleChange}
-        onKeyDown={handleEnter}
-        onFocus={onPopoverOpen}
-        onBlur={onPopoverClose}
-      />
-      {input !== '' && <InputRightElement
-        width='fit-content'
-        marginX='2'
-        marginY='1'
-      >
-        <Link to={`/search?q=${input}`}>
-          <Button
-            backgroundColor='messenger.600'
-            color='white'
-            size='sm'
-            _hover={{ bg: 'messenger.700' }}
-            isLoading={brainstorm.isLoading}
-          >
-            Search
-          </Button>
-        </Link>
-      </InputRightElement>}
-    </InputGroup>
-  )
-
-  // search param => /search?q=insert+search+term+here&token=TOKEN_ID
-  // clicking the dropdown menu and/or buttons should NOT close the dropdown
-  
-  // PASS - clicking input field opens open popover (Input onFocus={onOpen})
-  // PASS - opening popover doesn't steal focus from input (Popover autoFocus={false})
-  // PASS - popover stays open while typing (Popover isOpen={isOpen} keeps it open)
-  // FAIL - clicking popover (losing input focus) doesn't close popover 
-  //        (failed due to Input onBlur={onClose}, unable to close popover if onBlur removed)
-  // FAIL - clicking outside input or popover or pressing esc closes popover 
-  //        (Popover closeOnBlur and closeOnEsc doesn't work, even with Input onBlur removed)
-  // FAIL - clicking the brainstorm question button should not close the popover
-  // PASS - after clicking brainstorm button, replace brainstorm button and submit button with loader
-  // PASS - then replaces entire dropdown with "suggested research questions" followed by 5 suggestions
 
   return (
-    <Flex
-      maxWidth='3xl'
-      margin='auto'
-      direction='column'
-      alignItems='center'
-      justifyContent='center'
-      height='85dvh'
-    >
-      <Heading as='h3' fontWeight='normal'>Ask a research question</Heading>
-      <Text marginTop='0.5em' fontWeight='light'>Elicit will find answers from 175 million papers</Text>
-
+    <>
       <Popover
         isOpen={isPopoverOpen}
         onClose={onPopoverClose}
         autoFocus={false}
-        closeOnBlur={true} // no effect?
-        closeOnEsc={true} // no effect?
+        // closeOnBlur={true} // no effect?
+        // closeOnEsc={true} // no effect?
+        // returnFocusOnClose={false}
+        // initialFocusRef={inputRef}
       >
       
         <PopoverAnchor>
-          {inputSection}
+          <InputGroup marginTop='2em' maxWidth='85%'>
+            <InputLeftElement
+              pointerEvents='none'
+              fontSize='1.4rem'
+              width='14'
+              color='gray.500'
+              marginTop='1'
+            >
+              <FiSearch />
+            </InputLeftElement>
+
+            <Input
+              boxShadow='md'
+              type='text'
+              placeholder=''
+              size='lg'
+              focusBorderColor='none'
+              paddingLeft='3rem'
+              value={input}
+              // ref={inputRef}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              onFocus={onPopoverOpen}
+              // onBlur={onPopoverClose}
+            />
+            {input !== '' && <InputRightElement
+              width='fit-content'
+              marginX='2'
+              marginY='1'
+            >
+              <Link to={`/search?q=${input}`}>
+                <Button
+                  backgroundColor='messenger.600'
+                  color='white'
+                  size='sm'
+                  _hover={{ bg: 'messenger.700' }}
+                  isLoading={brainstorm.isLoading}
+                >
+                  Search
+                </Button>
+              </Link>
+            </InputRightElement>}
+          </InputGroup>
         </PopoverAnchor>
 
         {/* <PopoverTrigger>
@@ -228,48 +223,6 @@ export default function SearchBar() {
         </PopoverContent>
       </Popover>
 
-      <Text marginTop='2em'>Or run Elicit over your own papers</Text>
-      <Button
-        marginTop='1em'
-        variant='outline'
-        color='gray.500'
-        leftIcon={<FiUploadCloud />}
-        onClick={onModalOpen}
-      >Upload PDFs</Button>
-
-      <Modal isOpen={isModalOpen} onClose={onModalClose} isCentered>
-        <ModalOverlay/>
-        <ModalContent>
-          <ModalHeader >Upload papers</ModalHeader>
-          <ModalCloseButton/>
-          <ModalBody paddingTop='0'>
-            <Text color='gray.700' fontSize='sm'  >You can run Elicit over your own collection of papers to automatically extract key information, analyze claims, and find similar papers.</Text>
-            <Flex 
-              border='1px dashed' 
-              color='messenger.500'
-              borderRadius='5px' 
-              direction='column' 
-              marginTop='1em' 
-              justifyContent='center' 
-              alignItems='center'
-              padding='2em'
-              gap='0.5em'
-            >
-              <Box backgroundColor='blue.50' padding='0.5em' fontSize='4xl' borderRadius='50%'><FiUploadCloud/></Box>
-              <Text fontWeight='bold' fontSize='sm'>Drag and drop PDFs here</Text>
-            </Flex>
-
-            {/* <Input type='file'></Input> */}
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme='blue' onClick={onModalClose}>
-              Analyze papers
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-    </Flex>
+    </>
   )
 }

@@ -1,6 +1,6 @@
 
-import Landing from "./Landing"
-import SearchBar from "../components/SearchBar"
+import HomeLanding from "./HomeLanding"
+import HomeSearch from "./HomeSearch"
 
 
 interface UserProps {
@@ -12,7 +12,7 @@ export default function Home({ isLoggedIn }: UserProps) {
 
   return (
     <>
-      {isLoggedIn ? <SearchBar/> : <Landing/>}
+      {isLoggedIn ? <HomeSearch/> : <HomeLanding/>}
     </>
   )
 }
