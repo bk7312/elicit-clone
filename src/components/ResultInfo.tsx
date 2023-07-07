@@ -16,7 +16,7 @@ import { GoBook, GoPeople, GoLink } from 'react-icons/go'
 import { MouseEvent } from 'react'
 
 
-interface CardProps {
+interface InfoProps {
   title: string,
   titleFontSize: string,
   author: string[],
@@ -26,7 +26,7 @@ interface CardProps {
   doi: string,
 }
 
-export default function ResultCard( { title, author, journal, year, citations, doi, titleFontSize}: CardProps ) {
+export default function ResultInfo( { title, author, journal, year, citations, doi, titleFontSize}: InfoProps ) {
 
   // todo - improve doi copied alert popup, use chakra ui alert
   // handle other data or no data, i.e. pdf, no doi, etc 

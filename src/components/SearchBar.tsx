@@ -9,6 +9,8 @@ import {
 } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 
+import SuggestionButton from './SuggestionButton'
+
 import {
   // Box,
   // Flex,
@@ -46,21 +48,6 @@ const recentSearchText = [
 ]
 
 // search param => /search?q=insert+search+term+here&token=TOKEN_ID
-// clicking the dropdown menu and/or buttons should NOT close the dropdown
-
-// PASS - clicking input field opens open popover (Input onFocus={onOpen})
-// PASS - opening popover doesn't steal focus from input (Popover autoFocus={false})
-// PASS - popover stays open while typing (Popover isOpen={isOpen} keeps it open)
-// FAIL - clicking popover (losing input focus) doesn't close popover 
-//        (failed due to Input onBlur={onClose}, unable to close popover if onBlur removed)
-// FAIL - clicking outside input or popover or pressing esc closes popover 
-//        (Popover closeOnBlur and closeOnEsc doesn't work, even with Input onBlur removed)
-// FAIL - clicking the brainstorm question button should not close the popover
-// PASS - after clicking brainstorm button, replace brainstorm button and submit button with loader
-// PASS - then replaces entire dropdown with "suggested research questions" followed by 5 suggestions
-
-// when clicking popover, popover shadow disappears, when focus on input, popover has shadow
-
 
 export default function SearchBar() {
 
@@ -74,19 +61,6 @@ export default function SearchBar() {
 
   const { isOpen: isPopoverOpen, onOpen: onPopoverOpen, onClose: onPopoverClose } = useDisclosure()
   const navigate = useNavigate()
-
-  const textToButton = (text: string) => (
-    <Link to={`/search?q=${text}`}>
-      <Button
-        key={text}
-        variant='ghost'
-        color='gray.500'
-        width="100%"
-        justifyContent="flex-start"
-        leftIcon={<FiSearch />}
-      >{text}</Button>
-    </Link>
-  )
 
   function handleChange(e: ChangeEvent<HTMLInputElement>): void {
     const value = e.target.value
@@ -119,17 +93,12 @@ export default function SearchBar() {
     })), 3000)
   }
 
-
-
   return (
     <>
       <Popover
         isOpen={isPopoverOpen}
         onClose={onPopoverClose}
         autoFocus={false}
-        // closeOnBlur={true} // no effect?
-        // closeOnEsc={true} // no effect?
-        // returnFocusOnClose={false}
         // initialFocusRef={inputRef}
       >
       
@@ -157,7 +126,6 @@ export default function SearchBar() {
               onChange={handleChange}
               onKeyDown={handleKeyDown}
               onFocus={onPopoverOpen}
-              // onBlur={onPopoverClose}
             />
             {input !== '' && <InputRightElement
               width='fit-content'
@@ -210,13 +178,13 @@ export default function SearchBar() {
               brainstorm.results.length === 0 ?
                 <>
                   <Text>Try searching for</Text>
-                  {suggestedSearchText.map(text => textToButton(text))}
+                  {suggestedSearchText.map((text, index) => <SuggestionButton key={index}>{text}</SuggestionButton>)}
                   <Text>Recent searches</Text>
-                  {recentSearchText.map(text => textToButton(text))}
+                  {recentSearchText.map((text, index) => <SuggestionButton key={index}>{text}</SuggestionButton>)}
                 </> : 
                 <>
                   <Text>Suggested research questions</Text>
-                  {brainstorm.results.map(text => textToButton(text))}
+                  {brainstorm.results.map((text, index) => <SuggestionButton key={index}>{text}</SuggestionButton>)}
                 </>
             }
           </PopoverBody>
