@@ -10,6 +10,7 @@ import {
 import { useNavigate, Link } from 'react-router-dom'
 
 import SuggestionButton from './SuggestionButton'
+import { suggestedSearchText, recentSearchText, generateBrainstormData} from '../data/data'
 
 import {
   // Box,
@@ -34,18 +35,6 @@ interface IBrainstorm {
   isLoading: boolean
   results: string[]
 }
-
-const suggestedSearchText = [
-  'What is the impact of stress and anxiety on nightmares?',
-  'What are the benefits of polyphasic sleep?',
-  'How does human mortality affect morality?',
-]
-
-const recentSearchText = [
-  'What is the impact of stress and anxiety on daydreams?',
-  'What are the risks of monophasic sleep?',
-  'How does human morality affect mortality?',
-]
 
 // search param => /search?q=insert+search+term+here&token=TOKEN_ID
 
@@ -82,13 +71,7 @@ export default function SearchBar() {
     setBrainstorm(prev => ({...prev, isLoading: true}))
     setTimeout(() => setBrainstorm(prev => ({
       ...prev,
-      results: [
-        `What factors contribute to ${input}?`,
-        `How does ${input} work on a small scale?`,
-        `What is the impact of ${input} on a global scale?`,
-        `What are the risks of ${input}?`,
-        `How has ${input} changed over time?`,
-      ],
+      results: generateBrainstormData(input),
       isLoading: false
     })), 3000)
   }

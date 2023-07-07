@@ -39,6 +39,7 @@ import { FiSearch } from 'react-icons/fi'
 import { useState, MouseEvent } from 'react'
 import ResultInfo from './ResultInfo'
 import ResultsHeader from './ResultsHeader'
+import { sectionHeadings, generateResultsData } from '../data/data'
 
 interface ResultsProps {
   searchInput: string
@@ -55,39 +56,7 @@ export default function Results({ searchInput }: ResultsProps) {
 
   const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure()
 
-  const sectionHeadings = ['', 'Paper title', 'Abstract summary']
-
-  const [resultsData, setResultsData] = useState([{
-    id: '1',
-    title: `A brief review of ${searchInput}`,
-    author: ['Author', 'Writer', 'Editor'],
-    journal: 'Journal',
-    isStarred: true,
-    year: 2030,
-    citations: 10,
-    doi: 'https://doi.org/',
-    abstract: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem rem assumenda unde obcaecati asperiores nemo doloribus eaque ipsum repudiandae necessitatibus odit accusamus iusto, dolore et corrupti distinctio! Sed doloribus quam est quis mollitia aliquam ad deserunt quibusdam quo, ipsam eum fugiat quidem fugit molestias adipisci dicta. Consequatur esse accusamus odit nobis ut quam eos sunt labore, distinctio sint asperiores, omnis quisquam nisi illum blanditiis nostrum accusantium. Sint delectus, fuga nisi quaerat explicabo facere velit minima assumenda, amet mollitia sunt. Cumque blanditiis doloribus expedita? Sunt corrupti molestiae perferendis natus quia ullam enim temporibus qui. Reprehenderit nam dolores iure quia, quos blanditiis.',
-  }, {
-    id: '2',
-    title: `A meta-analysis of ${searchInput}`,
-    author: ['AuthorA', 'WriterB', 'EditorC'],
-    journal: 'Journal1',
-    isStarred: false,
-    year: 1999,
-    citations: 100,
-    doi: 'https://doi.org/',
-    abstract: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur assumenda voluptatem sunt repellendus sed natus debitis cum vero ratione error corrupti quo pariatur, voluptas veniam quidem itaque nulla ut illum officia voluptate id. Aliquam, eligendi sed? Obcaecati non deserunt quae eligendi alias dicta quaerat, assumenda dignissimos sequi fuga quisquam reprehenderit?',
-  }, {
-    id: '3',
-    title: `${searchInput}: A quantitative analysis`,
-    author: ['Author12', 'Writer12', 'Editor12'],
-    journal: 'Journal12',
-    isStarred: false,
-    year: 123,
-    citations: 123,
-    doi: 'https://doi.org/',
-    abstract: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim labore voluptatem quia eligendi minima rem illum nesciunt doloremque iure cupiditate atque autem eos iste doloribus veniam sapiente magni, placeat nihil obcaecati. Architecto, ullam. Ea asperiores consequuntur dolorum doloribus? Reprehenderit dolore non vel unde optio repudiandae numquam perferendis amet modi harum deserunt obcaecati sint debitis vero, accusantium suscipit. Iure nulla quibusdam ullam explicabo voluptates, excepturi fugiat natus, rem inventore eum voluptate error repellendus veritatis, adipisci eos! Totam impedit voluptatibus reiciendis nostrum?',
-  }])
+  const [resultsData, setResultsData] = useState(() => generateResultsData(searchInput))
 
   const [modalData, setModalData] = useState({
     id: '',
