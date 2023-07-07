@@ -15,7 +15,12 @@ import {
 import { FiLogOut } from 'react-icons/fi'
 import { TbLayoutGrid } from 'react-icons/tb'
 
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { 
+  Link, 
+  NavLink, 
+  useNavigate, 
+  // useLocation 
+} from 'react-router-dom'
 
 import {
   Button,
@@ -33,25 +38,29 @@ import {
 
 import { forwardRef } from 'react'
 
+// import SearchBar from './SearchBar'
+
 interface UserProps {
   isLoggedIn: boolean
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+const ProfilePopover = forwardRef<HTMLButtonElement>((props, ref) => (
+  <PopoverTrigger>
+    <IconButton 
+      aria-label='profile' 
+      color='gray.500' 
+      icon={<PiUserCircleBold/>}
+      {...props}
+      ref={ref}
+    />
+  </PopoverTrigger>)
+)
+
 export default function Header({ isLoggedIn, setIsLoggedIn }: UserProps) {
 
   const navigate = useNavigate()
-
-  const ProfilePopover = forwardRef<HTMLButtonElement>((props, ref) => (
-    <PopoverTrigger>
-      <IconButton 
-        aria-label='profile' 
-        color='gray.500' 
-        icon={<PiUserCircleBold/>}
-        {...props}
-        ref={ref}
-      />
-    </PopoverTrigger>))
+  // const location = useLocation()
 
   function logout() {
     setIsLoggedIn(false)
@@ -65,6 +74,8 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: UserProps) {
           <img src={elicitLogo} alt=''/>
         </Link>
       </Button>
+
+      {/* {location.pathname === '/search' && <SearchBar/>} */}
 
       <Flex as='nav' alignItems='center' justifyContent='space-between'>
         <ButtonGroup variant='ghost'>
