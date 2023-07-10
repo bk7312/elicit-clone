@@ -6,7 +6,8 @@ import {
   ChangeEvent, 
   KeyboardEvent, 
   FormEvent,
-  // useRef 
+  useRef,
+  useEffect,
 } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -42,7 +43,8 @@ interface IBrainstorm {
 export default function SearchBar() {
 
   const [input, setInput] = useState('')
-  // const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const popoverRef = useRef<HTMLInputElement>(null)
 
   const [brainstorm, setBrainstorm] = useState<IBrainstorm>({
     isLoading: false,
@@ -51,6 +53,18 @@ export default function SearchBar() {
 
   const { isOpen: isPopoverOpen, onOpen: onPopoverOpen, onClose: onPopoverClose } = useDisclosure()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    function closePopoverOnOutsideClick(e: MouseEvent) {
+      if (!isPopoverOpen) return
+      if (e.target !== inputRef.current && !popoverRef.current?.contains(e.target as Node)) {
+        onPopoverClose()
+      }
+      if (popoverRef.current?.contains(e.target as Node)) inputRef.current?.focus()
+    }
+    document.addEventListener('click', closePopoverOnOutsideClick)
+    return () => document.removeEventListener('click', closePopoverOnOutsideClick)
+  }, [isPopoverOpen, onPopoverClose])
 
   function handleChange(e: ChangeEvent<HTMLInputElement>): void {
     const value = e.target.value
@@ -86,7 +100,7 @@ export default function SearchBar() {
     <>
       <Popover
         isOpen={isPopoverOpen}
-        onClose={onPopoverClose}
+        // onClose={onPopoverClose}
         autoFocus={false}
         // initialFocusRef={inputRef}
       >
@@ -112,7 +126,7 @@ export default function SearchBar() {
               focusBorderColor='none'
               paddingLeft='3rem'
               value={input}
-              // ref={inputRef}
+              ref={inputRef}
               onChange={handleChange}
               onKeyDown={handleKeyDown}
               onFocus={onPopoverOpen}
@@ -147,6 +161,7 @@ export default function SearchBar() {
           borderRadius='5px'
           boxShadow='md' 
           marginTop='-2'
+          ref={popoverRef}
         >
           <PopoverBody>
             {input !== '' && <Button
@@ -167,13 +182,13 @@ export default function SearchBar() {
             {
               brainstorm.results.length === 0 ?
                 <>
-                  <Text>Try searching for</Text>
+                  <Text userSelect='none'>Try searching for</Text>
                   {suggestedSearchText.map((text, index) => <SuggestionButton key={index}>{text}</SuggestionButton>)}
-                  <Text>Recent searches</Text>
+                  <Text userSelect='none'>Recent searches</Text>
                   {recentSearchText.map((text, index) => <SuggestionButton key={index}>{text}</SuggestionButton>)}
                 </> : 
                 <>
-                  <Text>Suggested research questions</Text>
+                  <Text userSelect='none'>Suggested research questions</Text>
                   {brainstorm.results.map((text, index) => <SuggestionButton key={index}>{text}</SuggestionButton>)}
                 </>
             }
