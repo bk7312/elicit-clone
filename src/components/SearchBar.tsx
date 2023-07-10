@@ -5,9 +5,10 @@ import {
   useState, 
   ChangeEvent, 
   KeyboardEvent, 
+  FormEvent,
   // useRef 
 } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import SuggestionButton from './SuggestionButton'
 import { suggestedSearchText, recentSearchText, generateBrainstormData} from '../data/data'
@@ -57,13 +58,18 @@ export default function SearchBar() {
   }
 
   function handleKeyDown(e: KeyboardEvent<HTMLInputElement>): void {
-    if (e.key === 'Enter' && input !== '') {
-      navigate(`/search?q=${input}`)
-    }
+    // if (e.key === 'Enter' && input !== '') {
+    //   navigate(`/search?q=${input}`)
+    // }
     if (e.key === 'Escape') {
       e.currentTarget.blur()
       onPopoverClose()
     }
+  }
+
+  function handleSubmit(e: FormEvent<HTMLDivElement>): void {
+    e.preventDefault()
+    if (input !== '') navigate(`/search?q=${input}`)
   }
 
   function handleBrainstorm() {
@@ -86,7 +92,8 @@ export default function SearchBar() {
       >
       
         <PopoverAnchor>
-          <InputGroup marginTop='2em' maxWidth='85%'>
+
+          <InputGroup as='form' marginTop='2em' maxWidth='85%' onSubmit={handleSubmit}>
             <InputLeftElement
               pointerEvents='none'
               fontSize='1.4rem'
@@ -115,17 +122,17 @@ export default function SearchBar() {
               marginX='2'
               marginY='1'
             >
-              <Link to={`/search?q=${input}`}>
-                <Button
-                  backgroundColor='messenger.600'
-                  color='white'
-                  size='sm'
-                  _hover={{ bg: 'messenger.700' }}
-                  isLoading={brainstorm.isLoading}
-                >
-                  Search
-                </Button>
-              </Link>
+              <Button
+                backgroundColor='messenger.600'
+                color='white'
+                size='sm'
+                _hover={{ bg: 'messenger.700' }}
+                isLoading={brainstorm.isLoading}
+                type='submit'
+                // onClick={() => navigate(`/search?q=${input}`)}
+              >
+                Search
+              </Button>
             </InputRightElement>}
           </InputGroup>
         </PopoverAnchor>

@@ -16,8 +16,6 @@ import { FiLogOut } from 'react-icons/fi'
 import { TbLayoutGrid } from 'react-icons/tb'
 
 import { 
-  Link, 
-  NavLink, 
   useNavigate, 
   // useLocation 
 } from 'react-router-dom'
@@ -69,38 +67,36 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: UserProps) {
 
   return (
     <Flex as='header' alignItems='center' justifyContent='space-between' paddingY='2' paddingX='4'>
-      <Button variant='link'>
-        <Link to='/'>
-          <img src={elicitLogo} alt=''/>
-        </Link>
+      <Button 
+        variant='link' 
+        onClick={()=> navigate('/')}
+      >
+        <img src={elicitLogo} alt=''/>
       </Button>
 
       {/* {location.pathname === '/search' && <SearchBar/>} */}
 
       <Flex as='nav' alignItems='center' justifyContent='space-between'>
         <ButtonGroup variant='ghost'>
-          <NavLink to='/faq'>
-            <Button 
-              leftIcon={<FaRegQuestionCircle/>} 
-              color='gray.500'
-            >FAQ</Button>
-          </NavLink>
+          <Button 
+            leftIcon={<FaRegQuestionCircle/>} 
+            color='gray.500'
+            onClick={()=> navigate('/faq')}
+          >FAQ</Button>
 
           {isLoggedIn ? 
           <>
-            <NavLink to='/tasks'>
-              <Button 
-                leftIcon={<TbLayoutGrid/>} 
-                color='gray.500'
-              >Tasks</Button>
-            </NavLink>
+            <Button 
+              leftIcon={<TbLayoutGrid/>} 
+              color='gray.500'
+              onClick={()=> navigate('/tasks')}
+            >Tasks</Button>
 
-            <NavLink to='/starred'>
-              <Button 
-                leftIcon={<FaRegStar/>} 
-                color='gray.500'
-              >Starred</Button>
-            </NavLink>
+            <Button 
+              leftIcon={<FaRegStar/>} 
+              color='gray.500'
+              onClick={()=> navigate('/starred')}
+            >Starred</Button>
 
             <Popover>
               <Tooltip label='Account settings'>
@@ -115,7 +111,9 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: UserProps) {
                     width="100%" 
                     justifyContent="flex-start" 
                     leftIcon={<PiUserCircleBold/>}
-                  >UserName</Button>
+                  >
+                    UserName
+                  </Button>
                 </PopoverHeader>
 
                 <PopoverBody padding='1'>
@@ -124,22 +122,26 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: UserProps) {
                     width="100%" 
                     justifyContent="flex-start" 
                     leftIcon={<PiDownloadBold/>}
-                  >Download Desktop app</Button>
+                  >
+                    Download Desktop app
+                  </Button>
                   <Button 
                     color='gray.500' 
                     width="100%" 
                     justifyContent="flex-start" 
                     leftIcon={<FaListUl/>}
+                    onClick={()=> navigate('/terms')}
                   >
-                    <NavLink to='/terms'>Terms of service</NavLink>
+                    Terms of service
                   </Button>
                   <Button 
                     color='gray.500' 
                     width="100%" 
                     justifyContent="flex-start" 
                     leftIcon={<PiShieldBold/>}
+                    onClick={()=> navigate('/privacy')}
                   >
-                    <NavLink to='/privacy'>Privacy policy</NavLink>
+                    Privacy policy
                   </Button>
                 </PopoverBody>
 
@@ -150,15 +152,21 @@ export default function Header({ isLoggedIn, setIsLoggedIn }: UserProps) {
                     width="100%" 
                     justifyContent="flex-start"
                     onClick={logout}
-                  >Logout</Button>
+                  >
+                    Logout
+                  </Button>
                 </PopoverFooter>
               </PopoverContent>
             </Popover>
 
           </> : 
-          <NavLink to='login'>
-            <Button color='gray.500'>Log in</Button>
-          </NavLink>}
+          <Button 
+            color='gray.500'
+            onClick={()=> navigate('/login')}
+          >
+            Log in
+          </Button>
+          }
           
         </ButtonGroup>
       </Flex>
