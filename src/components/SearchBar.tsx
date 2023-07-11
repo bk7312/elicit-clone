@@ -26,7 +26,6 @@ import {
   InputRightElement,
   Popover,
   PopoverAnchor,
-  // PopoverTrigger,
   PopoverContent,
   PopoverBody,
   useDisclosure,
@@ -38,12 +37,15 @@ interface IBrainstorm {
   results: string[]
 }
 
-// search param => /search?q=insert+search+term+here&token=TOKEN_ID
+interface KeyUp {
+  key: string
+}
 
 export default function SearchBar() {
 
   const [input, setInput] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
+  const inputGroupRef = useRef<HTMLInputElement>(null)
   const popoverRef = useRef<HTMLInputElement>(null)
 
   const [brainstorm, setBrainstorm] = useState<IBrainstorm>({
@@ -57,13 +59,27 @@ export default function SearchBar() {
   useEffect(() => {
     function closePopoverOnOutsideClick(e: MouseEvent) {
       if (!isPopoverOpen) return
-      if (e.target !== inputRef.current && !popoverRef.current?.contains(e.target as Node)) {
+      if (!inputGroupRef.current?.contains(e.target as Node) && !popoverRef.current?.contains(e.target as Node)) {
         onPopoverClose()
       }
       if (popoverRef.current?.contains(e.target as Node)) inputRef.current?.focus()
     }
+
+    function closePopoverOnTabOut(e: KeyUp) {
+      if (isPopoverOpen && e.key === 'Tab') {
+        if (!inputGroupRef.current?.contains(document.activeElement as Node) && !popoverRef.current?.contains(document.activeElement as Node)) {
+          onPopoverClose()
+        }
+      }
+    }
+
     document.addEventListener('click', closePopoverOnOutsideClick)
-    return () => document.removeEventListener('click', closePopoverOnOutsideClick)
+    document.addEventListener('keyup', closePopoverOnTabOut)
+
+    return () => {
+      document.removeEventListener('click', closePopoverOnOutsideClick)
+      document.removeEventListener('keyup', closePopoverOnTabOut)
+    }
   }, [isPopoverOpen, onPopoverClose])
 
   function handleChange(e: ChangeEvent<HTMLInputElement>): void {
@@ -72,9 +88,6 @@ export default function SearchBar() {
   }
 
   function handleKeyDown(e: KeyboardEvent<HTMLInputElement>): void {
-    // if (e.key === 'Enter' && input !== '') {
-    //   navigate(`/search?q=${input}`)
-    // }
     if (e.key === 'Escape') {
       e.currentTarget.blur()
       onPopoverClose()
@@ -100,14 +113,18 @@ export default function SearchBar() {
     <>
       <Popover
         isOpen={isPopoverOpen}
-        // onClose={onPopoverClose}
         autoFocus={false}
-        // initialFocusRef={inputRef}
       >
       
         <PopoverAnchor>
 
-          <InputGroup as='form' marginTop='2em' maxWidth='85%' onSubmit={handleSubmit}>
+          <InputGroup 
+            as='form' 
+            marginTop='2em' 
+            maxWidth='85%' 
+            onSubmit={handleSubmit}
+            ref={inputGroupRef}
+          >
             <InputLeftElement
               pointerEvents='none'
               fontSize='1.4rem'
@@ -143,17 +160,12 @@ export default function SearchBar() {
                 _hover={{ bg: 'messenger.700' }}
                 isLoading={brainstorm.isLoading}
                 type='submit'
-                // onClick={() => navigate(`/search?q=${input}`)}
               >
                 Search
               </Button>
             </InputRightElement>}
           </InputGroup>
         </PopoverAnchor>
-
-        {/* <PopoverTrigger>
-          <Button display='none'>Trigger</Button>
-        </PopoverTrigger> */}
 
         <PopoverContent 
           width='85vw' 
