@@ -19,7 +19,7 @@ import {
   PiThumbsUpLight, 
   PiThumbsDownLight, 
   PiArrowLineLeft,
-  PiArrowLineRight,
+  // PiArrowLineRight,
 } from 'react-icons/pi'
 
 import { useState, MouseEvent } from 'react'
@@ -28,11 +28,16 @@ import InfoButton from './InfoButton'
 
 interface SidebarProps {
   searchInput: string
+  toggleSidebar: {
+    hideSidebar: boolean
+    setHideSidebar: React.Dispatch<React.SetStateAction<boolean>>
+  }
 }
 
-export default function Sidebar({ searchInput }: SidebarProps) {
+export default function Sidebar({ searchInput, toggleSidebar }: SidebarProps) {
 
-  const [hideSidebar, setHideSidebar] = useState(false)
+  // const [hideSidebar, setHideSidebar] = useState(false)
+  const { hideSidebar, setHideSidebar } = toggleSidebar
 
   const [infoType, setInfoType] = useState([
     {text: 'Abstract summary', isChecked: false},
@@ -46,7 +51,6 @@ export default function Sidebar({ searchInput }: SidebarProps) {
     setInfoType(prev => prev.map(el => el.text === id ? {...el, isChecked: !el.isChecked} : el))
   }
 
-
   // dynamic height for summary and infoButton section to fit page height
   // add paper info popover with additional data, when selected, adds/push to infoButton
   // move infoButton logic to /search instead and pass props to Sidebar
@@ -55,7 +59,7 @@ export default function Sidebar({ searchInput }: SidebarProps) {
   // Minor UI bug with summary thumbs up/down button, if hovered then scroll, tooltip scrolls instead of hide
 
   return (
-    <Flex direction='column' maxWidth='330px' gap='1em' padding='1em'>
+    <Flex direction='column' maxWidth='330px' gap='1em' padding='1em' display={hideSidebar ? 'none' : ''}>
       <Box backgroundColor='white' borderRadius='10px' boxShadow='sm' padding='1em'>
 
         <Flex justifyContent='space-between' alignItems='center' paddingBottom='0.75em'>
@@ -63,8 +67,9 @@ export default function Sidebar({ searchInput }: SidebarProps) {
           <IconButton 
             aria-label='Hide sidebar' 
             variant='ghost'
-            onClick={() => setHideSidebar(!hideSidebar)}
-            icon={hideSidebar ? <PiArrowLineRight/> : <PiArrowLineLeft/>}
+            onClick={() => setHideSidebar(true)}
+            visibility={hideSidebar ? 'hidden' : 'visible'}
+            icon={<PiArrowLineLeft/>}
           />
         </Flex>
 

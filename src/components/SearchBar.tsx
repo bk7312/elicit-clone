@@ -66,8 +66,9 @@ export default function SearchBar() {
     }
 
     function closePopoverOnTabOut(e: KeyUp) {
-      if (isPopoverOpen && e.key === 'Tab') {
-        if (!inputGroupRef.current?.contains(document.activeElement as Node) && !popoverRef.current?.contains(document.activeElement as Node)) {
+      if (!isPopoverOpen) return
+      if (e.key === 'Tab') {
+        if (!inputGroupRef.current?.contains(document.activeElement) && !popoverRef.current?.contains(document.activeElement)) {
           onPopoverClose()
         }
       }
@@ -173,9 +174,9 @@ export default function SearchBar() {
           borderRadius='5px'
           boxShadow='md' 
           marginTop='-2'
-          ref={popoverRef}
+          // ref={popoverRef}
         >
-          <PopoverBody>
+          <PopoverBody ref={popoverRef}>
             {input !== '' && <Button
               variant='outline'
               colorScheme='messenger'

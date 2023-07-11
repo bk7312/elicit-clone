@@ -33,7 +33,7 @@ import {
 } from '@chakra-ui/react'
 
 // import { HiChevronDown } from 'react-icons/hi'
-import { PiStar, PiStarFill } from 'react-icons/pi'
+import { PiStar, PiStarFill, PiArrowLineRight, } from 'react-icons/pi'
 import { FiSearch } from 'react-icons/fi'
 
 import { useState, MouseEvent } from 'react'
@@ -45,9 +45,13 @@ import { sectionHeadings, generateResultsData, generatePaperSummary, generatePap
 
 interface ResultsProps {
   searchInput: string
+  toggleSidebar: {
+    hideSidebar: boolean
+    setHideSidebar: React.Dispatch<React.SetStateAction<boolean>>
+  }
 }
 
-export default function Results({ searchInput }: ResultsProps) {
+export default function Results({ searchInput, toggleSidebar }: ResultsProps) {
 
   // todo 
   // move logic to /search and pass to Results as props
@@ -57,6 +61,8 @@ export default function Results({ searchInput }: ResultsProps) {
   // delete icon to appear on hover?
 
   const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure()
+  const { hideSidebar, setHideSidebar } = toggleSidebar
+
 
   const [resultsData, setResultsData] = useState(() => generateResultsData(searchInput))
 
@@ -89,13 +95,24 @@ export default function Results({ searchInput }: ResultsProps) {
       backgroundColor='white' 
       paddingY='1em' 
       marginY='1em' 
+      marginLeft={hideSidebar ? '1em' : ''}
       marginRight='1em'
       borderRadius='10px' 
       width='100%' 
       maxWidth='full' 
       boxShadow='sm'
     >
-      <ResultsHeader />
+      <Flex justifyContent='space-between'>
+        <IconButton 
+          aria-label='Show sidebar' 
+          variant='ghost'
+          marginX='1em'
+          onClick={() => setHideSidebar(false)}
+          visibility={hideSidebar ? 'visible' : 'hidden'}
+          icon={<PiArrowLineRight/>}
+          />
+        <ResultsHeader />
+      </Flex>
 
       <TableContainer>
         <Table>

@@ -8,13 +8,12 @@ interface ButtonProps {
   key: number
 }
 
-export default function SuggestionButton({children, key}: ButtonProps) {
+export default function SuggestionButton({children}: ButtonProps) {
 
   const navigate = useNavigate()
 
   return (
     <Button
-      key={key}
       variant='ghost'
       color='gray.500'
       width="100%"

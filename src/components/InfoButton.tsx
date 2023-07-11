@@ -10,12 +10,11 @@ interface ButtonProps {
   isChecked: boolean
 }
 
-export default function Sidebar({ key, toggle, isChecked, children }: ButtonProps) {
+export default function Sidebar({ toggle, isChecked, children }: ButtonProps) {
 
   return (
     <Button
       width='calc(100% - 1em)'
-      key={key}
       id={children}
       fontSize='sm'
       paddingY='0.5em'

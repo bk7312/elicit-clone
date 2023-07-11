@@ -9,16 +9,14 @@ import {
 } from '@chakra-ui/react'
 
 import { useLocation } from 'react-router-dom'
+import { useState } from 'react'
 
 export default function Search() {
 
   // searchbar in header (!!)
 
   // sidebar and results in flex container, toggle show/hide sidebar
-  // pass search params to sidebar as searchInput
-  // add dummy data
   // add logic to handle results filter
-  // implement result modal
   // full page height background
 
   // sidebar should be fixed in position and take up at most the whole screen height
@@ -27,14 +25,14 @@ export default function Search() {
   // results should scroll with the page
 
   // further improvement on result, sticky the filter/sortby header?
-
+  const [hideSidebar, setHideSidebar] = useState(false)
   const location = useLocation()
   const searchInput = decodeURI(location.search).slice(3)
 
   return (
     <Flex backgroundColor='gray.50'>
-      <Sidebar searchInput={searchInput}/>
-      <Results searchInput={searchInput}/>
+      <Sidebar searchInput={searchInput} toggleSidebar={{hideSidebar, setHideSidebar}}/>
+      <Results searchInput={searchInput} toggleSidebar={{hideSidebar, setHideSidebar}}/>
     </Flex>
   )
 }
