@@ -1,10 +1,3 @@
-
-
 export default function Logout() {
-
-  return (
-    <>
-      
-    </>
-  )
+  return <></>;
 }

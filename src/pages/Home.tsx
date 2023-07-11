@@ -1,22 +1,10 @@
-
-import HomeLanding from "./HomeLanding"
-import HomeSearch from "./HomeSearch"
-
+import HomeLanding from "./HomeLanding";
+import HomeSearch from "./HomeSearch";
 
 interface UserProps {
-  isLoggedIn: boolean
+  isLoggedIn: boolean;
 }
-
 
 export default function Home({ isLoggedIn }: UserProps) {
-
-  return (
-    <>
-      {isLoggedIn ? <HomeSearch/> : <HomeLanding/>}
-    </>
-  )
+  return <>{isLoggedIn ? <HomeSearch /> : <HomeLanding />}</>;
 }
-
-
-
-
